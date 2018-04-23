@@ -1,6 +1,7 @@
-MAX_LIMIT = 90
-
 class Oystercard
+
+  MAX_LIMIT = 90
+  MIN_LIMIT = 0
   attr_reader :balance
 
   def initialize
@@ -8,25 +9,23 @@ class Oystercard
   end
 
   def top_up(amount)
-    @addition = amount
-    raise "Cannot top up as balance exceeds maximum limit." if max_limit?
-    "Your total balance is £#{@balance += @addition}."
+    raise "Cannot top up as balance exceeds maximum limit." if max_limit?(amount)
+    "Your total balance is £#{@balance += amount}."
   end
 
   def deduct(amount)
-    @deduction = amount
-    raise "Cannot travel. Insufficent funds." if min_limit?
-    "Your total balance is £#{@balance -= @deduction}"
+    raise "Cannot travel. Insufficent funds." if min_limit?(amount)
+    "Your total balance is £#{@balance -= amount}"
   end
 
 private
 
-  def max_limit?
-    @balance + @addition > MAX_LIMIT
+  def max_limit?(amount)
+    @balance + amount > MAX_LIMIT
   end
 
-  def min_limit?
-    @balance - @deduction < 0
+  def min_limit?(amount)
+    @balance - amount < MIN_LIMIT
   end
 
 end
