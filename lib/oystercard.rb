@@ -1,15 +1,16 @@
 class Oystercard
+  DEFAULT_BALANCE = 0
   MAX_LIMIT = 90
   MIN_LIMIT = 0
   attr_reader :balance
 
   def initialize
-    @balance = 0
+    @balance = DEFAULT_BALANCE
     @in_journey = false
   end
 
   def top_up(amount)
-    raise 'Balance exceeds limit.' if max_limit?(amount)
+    raise "Balance exceeds the #{MAX_LIMIT} limit." if max_limit?(amount)
     total = @balance += amount
     "Your total balance is: £#{total}" #test this line
   end

@@ -5,7 +5,7 @@ let(:oystercard) { Oystercard.new }
 
   describe ' #balance ' do
     it 'should initialize card with a balance of 0' do
-      expect(oystercard.balance).to eq 0
+      expect(oystercard.balance).to eq Oystercard::DEFAULT_BALANCE
     end
   end
 
@@ -20,7 +20,7 @@ let(:oystercard) { Oystercard.new }
 
     it 'raises error if it exceeds the maximum limit' do
       expect { oystercard.top_up(100) }.to raise_error(RuntimeError,
-      'Balance exceeds limit.')
+      "Balance exceeds the #{Oystercard::MAX_LIMIT} limit.")
     end
   end
 
@@ -39,7 +39,7 @@ let(:oystercard) { Oystercard.new }
   describe ' #touch_in ' do
     it "changes in journey to true" do
       oystercard.touch_in
-      expect(oystercard).to be_in_journey # calls oystercard.in_journey?
+      expect(oystercard).to be_in_journey
     end
   end
 
