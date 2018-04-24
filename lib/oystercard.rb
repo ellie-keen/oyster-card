@@ -22,8 +22,8 @@ class Oystercard
     "Your total balance is: £#{total}" #test this line
   end
 
-  def touch_in(fare)
-    deduct(FARE)
+  def touch_in(balance)
+    raise "Insufficent funds. Top up your card." if @balance < FARE
     @in_journey = true
   end
 

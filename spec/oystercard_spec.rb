@@ -39,13 +39,13 @@ let(:oystercard) { Oystercard.new }
   describe ' #touch_in ' do
     it "changes in journey to true" do
       oystercard.instance_variable_set(:@balance, 20)
-      oystercard.touch_in(Oystercard::FARE)
+      oystercard.touch_in(@balance)
       expect(oystercard).to be_in_journey
     end
 
-    it "deducts fare from a balance" do
-      oystercard.instance_variable_set(:@balance, 20)
-      expect { oystercard.touch_in(Oystercard::FARE) }.to change { oystercard.balance }.by (-Oystercard::FARE)
+    it "raises an error if not enough money on card" do
+      expect { oystercard.touch_in(Oystercard::FARE) }.to raise_error(RuntimeError,
+         "Insufficent funds. Top up your card.")
     end
   end
 
