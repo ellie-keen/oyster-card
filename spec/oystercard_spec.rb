@@ -35,4 +35,25 @@ let(:oystercard) { Oystercard.new }
       'Cannot travel. Insufficent funds.')
     end
   end
+
+  describe ' #touch_in ' do
+    it "changes in journey to true" do
+      oystercard.touch_in
+      expect(oystercard).to be_in_journey # calls oystercard.in_journey?
+    end
+  end
+
+  describe ' #touch_out ' do
+    it "changes in journey to false" do
+      oystercard.touch_in
+      oystercard.touch_out
+      expect(oystercard).not_to be_in_journey
+    end
+  end
+
+  describe ' #in_journey? ' do
+    it "is false when card is initialized" do
+      expect(oystercard).not_to be_in_journey
+    end
+  end
 end
