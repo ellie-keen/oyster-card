@@ -4,6 +4,12 @@ describe Oystercard do
 subject(:oystercard) { described_class.new }
 let(:entry_station) { "entry_station" }
 
+  describe '#initialize' do
+    it 'should have empty journeys history' do
+      expect(oystercard.journeys).to eq []
+    end
+  end
+
   describe ' #balance ' do
     it 'should initialize card with a balance of 0' do
       expect(oystercard.balance).to eq Oystercard::DEFAULT_BALANCE
