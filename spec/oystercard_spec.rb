@@ -24,17 +24,17 @@ let(:oystercard) { Oystercard.new }
     end
   end
 
-  describe ' #deduct ' do
-    it 'should deduct amount from balance' do
-      oystercard.instance_variable_set(:@balance, 20)
-      expect { oystercard.deduct(10) }.to change { oystercard.balance }.by(-10)
-    end
-
-    it 'raises error if balance is below minimum' do
-      expect { oystercard.deduct(10) }.to raise_error(RuntimeError,
-      'Cannot travel. Insufficent funds.')
-    end
-  end
+  # describe ' #deduct ' do
+  #   it 'should deduct amount from balance' do
+  #     oystercard.instance_variable_set(:@balance, 20)
+  #     expect { oystercard.deduct(10) }.to change { oystercard.balance }.by(-10)
+  #   end
+  #
+  #   it 'raises error if balance is below minimum' do
+  #     expect { oystercard.deduct(10) }.to raise_error(RuntimeError,
+  #     'Cannot travel. Insufficent funds.')
+  #   end
+  # end
 
   describe ' #touch_in ' do
     it "changes in journey to true" do
@@ -44,7 +44,7 @@ let(:oystercard) { Oystercard.new }
     end
 
     it "raises an error if not enough money on card" do
-      expect { oystercard.touch_in(Oystercard::FARE) }.to raise_error(RuntimeError,
+      expect { oystercard.touch_in(Oystercard::MIN_LIMIT) }.to raise_error(RuntimeError,
          "Insufficent funds. Top up your card.")
     end
   end
@@ -52,9 +52,13 @@ let(:oystercard) { Oystercard.new }
   describe ' #touch_out ' do
     it "changes in journey to false" do
       oystercard.instance_variable_set(:@balance, 20)
-      oystercard.touch_in(Oystercard::FARE)
-      oystercard.touch_out
+      oystercard.touch_out(Oystercard::FARE)
       expect(oystercard).not_to be_in_journey
+    end
+
+    it "deducts fare from a balance" do
+      oystercard.instance_variable_set(:@balance, 20)
+      expect { oystercard.touch_out(Oystercard::FARE) }.to change { oystercard.balance }.by (-Oystercard::FARE)
     end
   end
 

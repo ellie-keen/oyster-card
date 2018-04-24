@@ -16,18 +16,13 @@ class Oystercard
     "Your total balance is: £#{total}" #test this line
   end
 
-  def deduct(amount)
-    raise 'Cannot travel. Insufficent funds.' if min_limit?(amount)
-    total = @balance -= amount
-    "Your total balance is: £#{total}" #test this line
-  end
-
   def touch_in(balance)
     raise "Insufficent funds. Top up your card." if @balance < FARE
     @in_journey = true
   end
 
-  def touch_out
+  def touch_out(fare)
+    deduct(fare)
     @in_journey = false
   end
 
@@ -43,6 +38,12 @@ class Oystercard
 
   def min_limit?(amount)
     @balance - amount < MIN_LIMIT
+  end
+
+  def deduct(amount)
+    raise 'Cannot travel. Insufficent funds.' if min_limit?(amount)
+    total = @balance -= amount
+    "Your total balance is: £#{total}" #test this line
   end
 
 end
