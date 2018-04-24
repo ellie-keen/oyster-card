@@ -2,7 +2,7 @@ require 'oystercard'
 
 describe Oystercard do
 subject(:oystercard) { described_class.new }
-let(:entry_station) { @entry_station }
+let(:entry_station) { "entry_station" }
 
   describe ' #balance ' do
     it 'should initialize card with a balance of 0' do
@@ -55,11 +55,25 @@ let(:entry_station) { @entry_station }
       oystercard.instance_variable_set(:@balance, 20)
       expect { oystercard.touch_out(Oystercard::FARE) }.to change { oystercard.balance }.by (-Oystercard::FARE)
     end
+
+    it "sets entry_station to nil" do
+      oystercard.instance_variable_set(:@balance, 20)
+      oystercard.touch_in(entry_station)
+      oystercard.touch_out(Oystercard::FARE)
+      expect(oystercard.entry_station).to eq(nil)
+    end
   end
 
   describe ' #in_journey? ' do
     it "is false when card is initialized" do
       expect(oystercard).not_to be_in_journey
     end
+
+    it "returns true when entry station exists" do
+      oystercard.instance_variable_set(:@balance, 20)
+      oystercard.touch_in(entry_station)
+      expect(oystercard).to be_in_journey
+    end
+
   end
 end
