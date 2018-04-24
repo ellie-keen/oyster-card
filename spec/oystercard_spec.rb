@@ -1,7 +1,8 @@
 require 'oystercard'
 
 describe Oystercard do
-let(:oystercard) { Oystercard.new }
+subject(:oystercard) { described_class.new }
+let(:entry_station) { @entry_station }
 
   describe ' #balance ' do
     it 'should initialize card with a balance of 0' do
@@ -24,28 +25,22 @@ let(:oystercard) { Oystercard.new }
     end
   end
 
-  # describe ' #deduct ' do
-  #   it 'should deduct amount from balance' do
-  #     oystercard.instance_variable_set(:@balance, 20)
-  #     expect { oystercard.deduct(10) }.to change { oystercard.balance }.by(-10)
-  #   end
-  #
-  #   it 'raises error if balance is below minimum' do
-  #     expect { oystercard.deduct(10) }.to raise_error(RuntimeError,
-  #     'Cannot travel. Insufficent funds.')
-  #   end
-  # end
-
   describe ' #touch_in ' do
     it "changes in journey to true" do
       oystercard.instance_variable_set(:@balance, 20)
-      oystercard.touch_in(@balance)
+      oystercard.touch_in(entry_station)
       expect(oystercard).to be_in_journey
     end
 
     it "raises an error if not enough money on card" do
-      expect { oystercard.touch_in(Oystercard::MIN_LIMIT) }.to raise_error(RuntimeError,
+      expect { oystercard.touch_in(entry_station) }.to raise_error(RuntimeError,
          "Insufficent funds. Top up your card.")
+    end
+
+    it "remembers the entry staton" do
+      oystercard.instance_variable_set(:@balance, 20)
+      oystercard.touch_in(entry_station)
+      expect(oystercard.entry_station).to eq(entry_station)
     end
   end
 

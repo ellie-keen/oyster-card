@@ -3,7 +3,7 @@ class Oystercard
   MAX_LIMIT = 90
   MIN_LIMIT = 0
   FARE = 1
-  attr_reader :balance
+  attr_reader :balance, :entry_station
 
   def initialize
     @balance = DEFAULT_BALANCE
@@ -16,8 +16,9 @@ class Oystercard
     "Your total balance is: £#{total}" #test this line
   end
 
-  def touch_in(balance)
+  def touch_in(entry_station)
     raise "Insufficent funds. Top up your card." if @balance < FARE
+    @entry_station = entry_station
     @in_journey = true
   end
 
