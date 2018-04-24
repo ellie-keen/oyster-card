@@ -2,6 +2,7 @@ class Oystercard
   DEFAULT_BALANCE = 0
   MAX_LIMIT = 90
   MIN_LIMIT = 0
+  FARE = 1
   attr_reader :balance
 
   def initialize
@@ -21,7 +22,8 @@ class Oystercard
     "Your total balance is: £#{total}" #test this line
   end
 
-  def touch_in
+  def touch_in(fare)
+    deduct(FARE)
     @in_journey = true
   end
 
