@@ -39,20 +39,20 @@ let(:oystercard) { Oystercard.new }
   describe ' #touch_in ' do
     it "changes in journey to true" do
       oystercard.instance_variable_set(:@balance, 20)
-      oystercard.touch_in(1)
+      oystercard.touch_in(Oystercard::FARE)
       expect(oystercard).to be_in_journey
     end
 
     it "deducts fare from a balance" do
       oystercard.instance_variable_set(:@balance, 20)
-      expect { oystercard.touch_in(1) }.to change { oystercard.balance }.by (-1)
+      expect { oystercard.touch_in(Oystercard::FARE) }.to change { oystercard.balance }.by (-Oystercard::FARE)
     end
   end
 
   describe ' #touch_out ' do
     it "changes in journey to false" do
       oystercard.instance_variable_set(:@balance, 20)
-      oystercard.touch_in(1)
+      oystercard.touch_in(Oystercard::FARE)
       oystercard.touch_out
       expect(oystercard).not_to be_in_journey
     end
