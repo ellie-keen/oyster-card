@@ -58,15 +58,19 @@ def full_journey_history
   p card
 end
 
+def create_station
+  station = Station.new
+end
+
 #balance
 #top_up
 #touch_in
 #deduct
 #save_entry_station
 #save_exit_station
-
 #top_up_error
+# full_journey_history
 
-full_journey_history
+create_station
 
 # irb -r './spec/feature_test.rb'
