@@ -5,20 +5,24 @@ subject(:oystercard) { described_class.new }
 let(:entry_station) { "Dalston Junction" }
 let(:exit_station) { "Liverpool Street" }
 
-  it 'should have empty journeys history' do
-    expect(oystercard.journeys).to eq []
-  end
+  describe ' #initialize ' do
 
-  describe ' #balance ' do
-    it 'should initialize card with a balance of 0' do
+    it 'should have empty journeys history' do
+      expect(oystercard.journey_history).to eq []
+    end
+
+    it 'should have an empty journey as default' do
+      journey_init = { entry_station: nil, exit_station: nil }
+      expect(oystercard.journey).to eq journey_init
+    end
+
+    it 'should initialize card with a balance of DEFAULT_BALANCE' do
       expect(oystercard.balance).to eq Oystercard::DEFAULT_BALANCE
     end
+
   end
 
   describe ' #top_up ' do
-    it 'should take an amount as an argument' do
-      expect(oystercard).to respond_to(:top_up).with(1).argument
-    end
 
     it 'should add the amount to the balance' do
       expect { oystercard.top_up(10) }.to change { oystercard.balance }.by(10)
@@ -28,9 +32,11 @@ let(:exit_station) { "Liverpool Street" }
       expect { oystercard.top_up(100) }.to raise_error(RuntimeError,
       "Balance exceeds the #{Oystercard::MAX_LIMIT} limit.")
     end
+
   end
 
   describe ' #touch_in ' do
+
     it "changes in journey to true" do
       oystercard.instance_variable_set(:@balance, 20)
       oystercard.touch_in(entry_station)
@@ -47,9 +53,18 @@ let(:exit_station) { "Liverpool Street" }
       oystercard.touch_in(entry_station)
       expect(oystercard.entry_station).to eq(entry_station)
     end
+
+      it "records entry station in journey" do
+        oystercard.instance_variable_set(:@balance, 20)
+        oystercard.touch_in(entry_station)
+        start_journey = { entry_station: entry_station, exit_station: nil }
+        expect(oystercard.journey).to eq start_journey
+      end
+
   end
 
   describe ' #touch_out ' do
+
     it "changes in journey to false" do
       oystercard.instance_variable_set(:@balance, 20)
       oystercard.touch_out(exit_station)
@@ -67,25 +82,40 @@ let(:exit_station) { "Liverpool Street" }
       oystercard.touch_out(exit_station)
       expect(oystercard.exit_station).to eq exit_station
     end
+
+    it "removes entry station when you touch out" do
+      oystercard.instance_variable_set(:@balance, 20)
+      oystercard.touch_in(entry_station)
+      oystercard.touch_out(exit_station)
+      expect(oystercard.entry_station).to eq nil
+    end
+
+    it "records exit station in journey" do
+      oystercard.instance_variable_set(:@balance, 20)
+      oystercard.touch_in(entry_station)
+      oystercard.touch_out(exit_station)
+      end_journey = { entry_station: entry_station, exit_station: exit_station }
+      expect(oystercard.journey).to eq end_journey
+    end
+
+    it "saves the journey in journey history" do
+      oystercard.instance_variable_set(:@balance, 20)
+      oystercard.touch_in(entry_station)
+      oystercard.touch_out(exit_station)
+      complete_journey = { entry_station: entry_station, exit_station: exit_station }
+      expect(oystercard.journey_history).to include complete_journey
+    end
+
   end
 
-    describe "#in_journey" do
-      it "returns false when exit the station" do
-        oystercard.instance_variable_set(:@balance, 20)
-        oystercard.touch_in(entry_station)
-        oystercard.touch_out(exit_station)
-        expect(oystercard).not_to be_in_journey
-      end
+  describe "#in_journey" do
+    it "returns false when exit the station" do
+      oystercard.instance_variable_set(:@balance, 20)
+      oystercard.touch_in(entry_station)
+      oystercard.touch_out(exit_station)
+      expect(oystercard).not_to be_in_journey
     end
 
-    describe ' #journeys ' do
-      it "a complete journey should be stored in journeys" do
-        oystercard.instance_variable_set(:@balance, 20)
-        oystercard.touch_in(entry_station)
-        oystercard.touch_out(exit_station)
-        expect(oystercard.journeys).to eq [{ entry_station => exit_station }]
-      end
-    end
-    # should exit station be nil after touch out?
-    # if so, add test!
+  end
+
 end
