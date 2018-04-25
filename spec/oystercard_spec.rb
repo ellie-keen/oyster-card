@@ -2,13 +2,11 @@ require 'oystercard'
 
 describe Oystercard do
 subject(:oystercard) { described_class.new }
-let(:entry_station) { "entry_station" }
-let(:exit_station) { "exit_station" }
+let(:entry_station) { "Dalston Junction" }
+let(:exit_station) { "Liverpool Street" }
 
-  describe '#initialize' do
-    it 'should have empty journeys history' do
-      expect(oystercard.journeys).to eq []
-    end
+  it 'should have empty journeys history' do
+    expect(oystercard.journeys).to eq []
   end
 
   describe ' #balance ' do
@@ -79,4 +77,15 @@ let(:exit_station) { "exit_station" }
         expect(oystercard).not_to be_in_journey
       end
     end
+
+    describe ' #journeys ' do
+      it "a complete journey should be stored in journeys" do
+        oystercard.instance_variable_set(:@balance, 20)
+        oystercard.touch_in(entry_station)
+        oystercard.touch_out(exit_station)
+        expect(oystercard.journeys).to eq [{ entry_station => exit_station }]
+      end
+    end
+    # should exit station be nil after touch out?
+    # if so, add test!
 end
