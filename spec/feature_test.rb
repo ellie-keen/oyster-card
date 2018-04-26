@@ -95,8 +95,21 @@ end
 
 def save_exit_station
   journey = Journey.new(entry_station: "Waterloo")
-  journey.save_exit_station(exit_station)
+  exit_station = "Dalston"
+  journey.set_complete(exit_station)
+  journey.complete?
+  p journey
+end
+
+def set_fare
+  journey = Journey.new(entry_station: "Waterloo")
+  exit_station = "Dalston"
+  # journey.set_exit_station(exit_station)
+  journey.set_complete(exit_station)
+  journey.complete?
+  # journey.fare
 end
 
 # default_complete_to_false
 save_exit_station
+# set_fare

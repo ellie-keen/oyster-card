@@ -2,6 +2,7 @@ require 'journey'
 
 describe Journey do
 
+  let(:fare) { Journey::FARE }
   let(:entry_station) { "Waterloo" }
   let(:exit_station) { "Aldgate East" }
   let(:journey) { Journey.new }
@@ -35,16 +36,24 @@ describe Journey do
   describe ' #set_exit_station ' do
 
     it 'should return correct exit station' do
-      expect(journey.set_exit_station(exit_station)).to eq exit_station
+      journey_with_entry.set_complete(exit_station)
+      expect(journey_with_entry.exit_station).to eq exit_station
     end
+
   end
 
   context 'when both entry and exit station are set' do
 
     it 'complete? will return true' do
       journey.set_entry_station(entry_station)
-      journey.set_exit_station(exit_station)
+      journey.set_complete(exit_station)
       expect(journey.complete?).to eq true
+    end
+
+    it 'will return fare equal to minimum fare' do
+      journey.set_entry_station(entry_station)
+      journey.set_complete(exit_station)
+      expect(journey.fare).to eq fare
     end
 
   end
