@@ -1,7 +1,7 @@
 # irb -r './spec/feature_test.rb'
 
 require './lib/oystercard'
-require './lib/journey.rb'
+# require './lib/journey'
 
 def balance
   card = Oystercard.new
@@ -106,7 +106,7 @@ def set_fare
   exit_station = "Dalston"
   journey.set_complete(exit_station)
   journey.complete?
-  journey.fare
+  p journey.fare
 end
 
 # default_complete_to_false
