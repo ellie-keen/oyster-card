@@ -13,6 +13,7 @@ describe Oystercard do
     expect(oystercard.journey_history).to eq []
   end
   it 'should have an empty journey when initialized' do
+    pending('requires adding journey class')
     journey = { entry_station: nil, exit_station: nil }
     expect(oystercard.journey).to eq journey
   end
