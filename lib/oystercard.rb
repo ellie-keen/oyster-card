@@ -1,8 +1,10 @@
 class Oystercard
+    
   DEFAULT_BALANCE = 0
   MAX_LIMIT = 90
   MIN_LIMIT = 0
   FARE = 1
+
   attr_reader :balance, :journey_history, :journey
 
   def initialize
