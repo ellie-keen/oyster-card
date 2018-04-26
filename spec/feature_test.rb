@@ -1,6 +1,7 @@
 # irb -r './spec/feature_test.rb'
 
 require './lib/oystercard'
+require './lib/journey'
 
 def balance
   card = Oystercard.new
@@ -62,6 +63,15 @@ def create_station
   station = Station.new
 end
 
+def touch_out_only
+  card = Oystercard.new
+  card.top_up(10)
+  card.touch_in("Camden")
+  card.touch_out("Dalston")
+  card.touch_out("Waterloo")
+  p card
+end
+
 #balance
 #top_up
 #touch_in
@@ -69,8 +79,18 @@ end
 #save_entry_station
 #save_exit_station
 #top_up_error
-# full_journey_history
+#full_journey_history
+#create_station
+#touch_out_only
 
-create_station
+def create_journey
+  journey = Journey.new
+  p journey
+end
 
-# irb -r './spec/feature_test.rb'
+def complete_journey
+  journey = Journey.new(entry_station: "Waterloo")
+  p journey.complete?
+end
+
+complete_journey
