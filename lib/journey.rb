@@ -16,6 +16,7 @@ attr_reader :entry_station
   end
 
   def complete?
+    @complete = true if !!@exit_station && !!@entry_station
     @complete
   end
 

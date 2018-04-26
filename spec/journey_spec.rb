@@ -38,4 +38,14 @@ describe Journey do
       expect(journey.set_exit_station(exit_station)).to eq exit_station
     end
   end
+
+  context 'when both entry and exit station are set' do
+
+    it 'complete? will return true' do
+      journey.set_entry_station(entry_station)
+      journey.set_exit_station(exit_station)
+      expect(journey.complete?).to eq true
+    end
+
+  end
 end
