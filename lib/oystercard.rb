@@ -1,3 +1,5 @@
+require 'journey'
+
 class Oystercard
 
   DEFAULT_BALANCE = 0
