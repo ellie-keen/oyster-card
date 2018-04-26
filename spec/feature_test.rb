@@ -88,9 +88,15 @@ def create_journey
   p journey
 end
 
-def complete_journey
+def default_complete_to_false
   journey = Journey.new(entry_station: "Waterloo")
   p journey.complete?
 end
 
-complete_journey
+def save_exit_station
+  journey = Journey.new(entry_station: "Waterloo")
+  journey.save_exit_station(exit_station)
+end
+
+# default_complete_to_false
+save_exit_station

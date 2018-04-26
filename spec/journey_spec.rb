@@ -3,6 +3,7 @@ require 'journey'
 describe Journey do
 
   let(:entry_station) { "Waterloo" }
+  let(:exit_station) { "Aldgate East" }
   let(:journey) { Journey.new }
   let(:journey_with_entry) { Journey.new(entry_station: entry_station) }
 
@@ -28,6 +29,13 @@ describe Journey do
     it 'should return correct entry station' do
       expect(journey.set_entry_station(entry_station)).to eq entry_station
     end
+
   end
 
+  describe ' #set_exit_station ' do
+
+    it 'should return correct exit station' do
+      expect(journey.set_exit_station(exit_station)).to eq exit_station
+    end
+  end
 end
