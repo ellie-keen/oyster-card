@@ -1,7 +1,6 @@
 # irb -r './spec/feature_test.rb'
 
 require './lib/oystercard'
-# require './lib/journey'
 
 def balance
   card = Oystercard.new
