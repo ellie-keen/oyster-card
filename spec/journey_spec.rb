@@ -6,7 +6,7 @@ describe Journey do
   let(:entry_station) { "Waterloo" }
   let(:exit_station) { "Aldgate East" }
   let(:journey) { Journey.new }
-  let(:journey_with_entry) { Journey.new(entry_station: entry_station) }
+  let(:journey_with_entry) { Journey.new(entry_station) }
 
   describe ' #initialize ' do
 
@@ -33,11 +33,19 @@ describe Journey do
 
   end
 
-  describe ' #set_exit_station ' do
+  describe ' #set_exit_station ' do # why is this describing a private method...
 
-    it 'should return correct exit station' do
+    it 'should return correct exit station' do # what is the meaning of this test?
       journey_with_entry.set_complete(exit_station)
       expect(journey_with_entry.exit_station).to eq exit_station
+    end
+
+  end
+
+  describe ' #complete? ' do
+
+    it ' it should be false by default' do
+      expect(journey).not_to be_complete
     end
 
   end

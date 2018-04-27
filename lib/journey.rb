@@ -1,10 +1,10 @@
 class Journey
 
-FARE = 1
+  FARE = 1
 
-attr_reader :entry_station, :exit_station, :fare
+  attr_reader :entry_station, :exit_station, :fare
 
-  def initialize(entry_station: nil)
+  def initialize(entry_station = nil)
     @entry_station = entry_station
     @complete = false
   end
