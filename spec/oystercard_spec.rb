@@ -5,7 +5,7 @@ describe Oystercard do
   let(:amount) { 5 }
   let(:entry_station) { "Dalston Junction" }
   let(:exit_station) { "Liverpool Street" }
-  let(:journey) { Journey }
+  let(:journey) { double :journey }
 
   it 'oystercard balance is initialized with a value of DEFAULT_BALANCE' do
     expect(oystercard.balance).to eq Oystercard::DEFAULT_BALANCE
@@ -13,7 +13,6 @@ describe Oystercard do
   it 'should have empty journey_history when initialized' do
     expect(oystercard.journey_history).to eq []
   end
-  it { is_expected.to respond_to(:journey) }
 
   describe ' #top_up ' do
     it 'should add the amount to the balance' do
@@ -52,7 +51,7 @@ describe Oystercard do
   context 'complete journey' do
 
     before do
-      oystercard.instance_variable_set(:@balance, amount) # replace with top up 
+      oystercard.instance_variable_set(:@balance, amount) # replace with top up
       oystercard.touch_in(entry_station)
       oystercard.touch_out(exit_station)
     end
@@ -63,4 +62,15 @@ describe Oystercard do
       expect(oystercard.journey_history.length).to eq 1
     end
   end
+
+  context ' touch in, touch in '
+    before do
+      oystercard.top_up(amount)
+      oystercard.touch_in(entry_station)
+      oystercard.touch_in(exit_station)
+    end
+
+    it "should deduct penalty fare from balance" do
+      expect(oystercard.balance).to eq (amount - PENALTY_FARE)
+    end
 end

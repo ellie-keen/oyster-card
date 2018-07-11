@@ -33,9 +33,9 @@ describe Journey do
 
   end
 
-  describe ' #set_exit_station ' do # why is this describing a private method...
+  describe ' #set_exit_station ' do 
 
-    it 'should return correct exit station' do # what is the meaning of this test?
+    it 'should return correct exit station' do #
       journey_with_entry.set_complete(exit_station)
       expect(journey_with_entry.exit_station).to eq exit_station
     end
